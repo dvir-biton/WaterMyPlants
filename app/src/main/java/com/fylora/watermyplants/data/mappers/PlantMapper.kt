@@ -12,7 +12,7 @@ import java.time.LocalTime
 import java.time.ZoneId
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun Plant.toPlantEntity(): PlantEntity {
+fun Plant.toEntity(): PlantEntity {
     return PlantEntity(
         plantName = plantName,
         amountOfWater = amountOfWater,
@@ -27,7 +27,7 @@ fun Plant.toPlantEntity(): PlantEntity {
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun PlantEntity.toPlant(): Plant {
+fun PlantEntity.toModel(): Plant {
     return Plant(
         plantName = plantName,
         amountOfWater = amountOfWater,
