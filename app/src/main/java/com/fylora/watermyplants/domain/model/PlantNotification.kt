@@ -7,5 +7,6 @@ data class PlantNotification(
     val action: String,
     val plantId: Int?,
     val timestamp: LocalDateTime,
-    val isOpened: Boolean
+    val isOpened: Boolean,
+    val id: Int?
 )
