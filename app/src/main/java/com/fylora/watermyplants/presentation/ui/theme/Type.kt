@@ -1,4 +1,4 @@
-package com.fylora.watermyplants.ui.theme
+package com.fylora.watermyplants.presentation.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
