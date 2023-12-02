@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import java.net.URI
 
 @Entity(tableName = "plants")
-data class Plant(
+data class PlantEntity(
     val plantName: String,
     val amountOfWater: Int,
     val description: String,
