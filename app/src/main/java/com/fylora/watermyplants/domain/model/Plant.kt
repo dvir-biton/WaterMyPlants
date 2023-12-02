@@ -14,5 +14,6 @@ data class Plant(
     val time: LocalTime,
     val nextWater: LocalDate,
     val status: PlantStatus,
-    val image: URI
+    val image: URI,
+    val id: Int?
 )
