@@ -15,7 +15,7 @@ This mobile app helps you keep track of your plant watering schedule, ensuring y
 Clone the repository.
 
 ```bash
-git clone https://github.com/yourusername/WaterMyPlants.git
+git clone https://github.com/fylora/WaterMyPlants.git
 ```
 Open the project in Android Studio.
 
