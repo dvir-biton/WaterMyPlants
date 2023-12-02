@@ -2,7 +2,6 @@ package com.fylora.watermyplants.data.data_sources
 
 import android.app.Notification
 import androidx.room.Dao
-import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Upsert
 
