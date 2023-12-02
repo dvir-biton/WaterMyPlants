@@ -8,10 +8,10 @@ sealed class PlantStatus(val type: String) {
     companion object {
         fun fromType(type: String): PlantStatus {
             return when (type.lowercase()) {
-                "upcoming" -> PlantStatus.Upcoming
-                "forgot_to_water" -> PlantStatus.ForgotToWater
-                "watered" -> PlantStatus.Watered
-                else -> throw IllegalArgumentException("Unknown plant size type: $type")
+                "upcoming" -> Upcoming
+                "forgot_to_water" -> ForgotToWater
+                "watered" -> Watered
+                else -> throw IllegalArgumentException("Unknown plant status type: $type")
             }
         }
     }

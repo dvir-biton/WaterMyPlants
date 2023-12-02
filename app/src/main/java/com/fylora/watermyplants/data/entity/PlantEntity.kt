@@ -2,9 +2,9 @@ package com.fylora.watermyplants.data.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.net.URI
+import com.fylora.watermyplants.core.Commons.PLANTS_TABLE_NAME
 
-@Entity(tableName = "plants")
+@Entity(tableName = PLANTS_TABLE_NAME)
 data class PlantEntity(
     val plantName: String,
     val amountOfWater: Int,
