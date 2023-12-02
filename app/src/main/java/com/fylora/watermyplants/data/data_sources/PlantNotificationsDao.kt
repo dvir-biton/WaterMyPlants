@@ -1,15 +1,15 @@
 package com.fylora.watermyplants.data.data_sources
 
-import android.app.Notification
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
+import com.fylora.watermyplants.data.entity.PlantNotificationEntity
 
 @Dao
 interface PlantNotificationsDao {
     @Query("SELECT * FROM notifications")
-    fun getAllNotifications(): List<Notification>
+    fun getNotifications(): List<PlantNotificationEntity>
 
     @Upsert
-    fun upsertNotification(notification: Notification)
+    fun upsertNotification(notification: PlantNotificationEntity)
 }
