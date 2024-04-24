@@ -1,13 +1,10 @@
 package com.fylora.watermyplants.data.mappers
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.fylora.watermyplants.data.entity.PlantNotificationEntity
 import com.fylora.watermyplants.domain.model.PlantNotification
 import java.time.Instant
 import java.time.ZoneId
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun PlantNotification.toEntity(): PlantNotificationEntity {
     return PlantNotificationEntity(
         body = body,
@@ -19,7 +16,6 @@ fun PlantNotification.toEntity(): PlantNotificationEntity {
     )
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun PlantNotificationEntity.toModel(): PlantNotification {
     return PlantNotification(
         body = body,

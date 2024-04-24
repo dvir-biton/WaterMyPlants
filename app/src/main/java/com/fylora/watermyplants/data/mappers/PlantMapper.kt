@@ -1,20 +1,17 @@
 package com.fylora.watermyplants.data.mappers
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+import android.net.Uri
 import com.fylora.watermyplants.data.entity.PlantEntity
 import com.fylora.watermyplants.domain.model.Plant
 import com.fylora.watermyplants.domain.util.PlantSize
 import com.fylora.watermyplants.domain.util.PlantStatus
-import java.net.URI
 import java.time.Instant
 import java.time.LocalTime
 import java.time.ZoneId
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun Plant.toEntity(): PlantEntity {
     return PlantEntity(
-        plantName = plantName,
+        plantName = name,
         amountOfWater = amountOfWater,
         description = description,
         size = size.type,
@@ -26,17 +23,16 @@ fun Plant.toEntity(): PlantEntity {
     )
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun PlantEntity.toModel(): Plant {
     return Plant(
-        plantName = plantName,
+        name = plantName,
         amountOfWater = amountOfWater,
         description = description,
         size = PlantSize.fromType(size),
         time = LocalTime.ofSecondOfDay(time / 1000),
         nextWater = Instant.ofEpochMilli(nextWater).atZone(ZoneId.systemDefault()).toLocalDate(),
         status = PlantStatus.fromType(status),
-        image = URI.create(imageUrl),
+        image = Uri.parse(imageUrl),
         id = id
     )
 }

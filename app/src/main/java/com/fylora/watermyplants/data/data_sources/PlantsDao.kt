@@ -2,26 +2,23 @@ package com.fylora.watermyplants.data.data_sources
 
 import androidx.room.Dao
 import androidx.room.Delete
-import androidx.room.Insert
 import androidx.room.Query
-import androidx.room.Update
+import androidx.room.Upsert
 import com.fylora.watermyplants.core.Commons.PLANTS_TABLE_NAME
 import com.fylora.watermyplants.data.entity.PlantEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PlantsDao {
     @Query("SELECT * FROM $PLANTS_TABLE_NAME")
-    fun getAllPlants(): List<PlantEntity>
+    fun getAllPlants(): Flow<List<PlantEntity>>
 
     @Query("SELECT * FROM $PLANTS_TABLE_NAME WHERE id = :id")
-    fun getPlantById(id: Int): PlantEntity?
-
-    @Update
-    fun updatePlant(plant: PlantEntity)
+    suspend fun getPlantById(id: Int): PlantEntity?
 
     @Delete
-    fun deletePlant(id: Int)
+    suspend fun deletePlant(plant: PlantEntity)
 
-    @Insert
-    fun insertPlant(plant: PlantEntity)
+    @Upsert
+    suspend fun upsertPlant(plant: PlantEntity)
 }

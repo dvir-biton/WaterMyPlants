@@ -2,19 +2,18 @@ package com.fylora.watermyplants.domain.repository
 
 import com.fylora.watermyplants.domain.model.Plant
 import com.fylora.watermyplants.domain.model.PlantNotification
+import kotlinx.coroutines.flow.Flow
 
 interface PlantsRepository {
-    fun getAllPlants(): List<Plant>
+    fun getAllPlants(): Flow<List<Plant>>
 
-    fun getPlantById(id: Int): Plant?
+    suspend fun getPlantById(id: Int): Plant?
 
-    fun updatePlant(plant: Plant)
+    suspend fun deletePlant(plant: Plant)
 
-    fun deletePlant(id: Int)
+    suspend fun upsertPlant(plant: Plant)
 
-    fun insertPlant(plant: Plant)
+    suspend fun getAllNotifications(): List<PlantNotification>
 
-    fun getAllNotifications(): List<PlantNotification>
-
-    fun upsertNotification(notification: PlantNotification)
+    suspend fun upsertNotification(notification: PlantNotification)
 }
