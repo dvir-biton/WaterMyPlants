@@ -23,6 +23,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import com.fylora.watermyplants.core.fontFamily
 import com.fylora.watermyplants.domain.model.Plant
@@ -33,6 +34,8 @@ import com.fylora.watermyplants.presentation.ui.theme.OnBackgroundSecondaryBlack
 import com.fylora.watermyplants.presentation.ui.theme.StrokeColor
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.format.TextStyle
+import java.util.Locale
 
 @Composable
 fun PlantCard(
@@ -53,7 +56,9 @@ fun PlantCard(
             .clickable { onClick() }
     ) {
         Column(
-            modifier = Modifier.padding(12.dp)
+            modifier = Modifier
+                .padding(12.dp)
+                .zIndex(1f)
         ) {
             DataTag {
                 Text(
@@ -68,7 +73,7 @@ fun PlantCard(
             Spacer(modifier = Modifier.height(4.dp))
             DataTag {
                 Text(
-                    text = plant.nextWater.dayOfWeek.toString(),
+                    text = plant.nextWater.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault()),
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Medium,
                     fontFamily = fontFamily,
@@ -95,6 +100,8 @@ fun PlantCard(
                        fontFamily = fontFamily,
                        fontWeight = FontWeight.SemiBold,
                        color = OnBackgroundPrimaryBlack,
+                       overflow = TextOverflow.Ellipsis,
+                       maxLines = 1
                    )
                    Text(
                        text = plant.description,
@@ -105,6 +112,7 @@ fun PlantCard(
                        maxLines = 1
                    )
                }
+               Spacer(modifier = Modifier.width(8.dp))
                WaterButton(
                    isChecked = plant.status == PlantStatus.Watered,
                    onClick = onButtonClick

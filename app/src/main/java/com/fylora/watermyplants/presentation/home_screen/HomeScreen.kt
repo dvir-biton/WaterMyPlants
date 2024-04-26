@@ -1,5 +1,11 @@
 package com.fylora.watermyplants.presentation.home_screen
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,6 +26,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -28,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.fylora.watermyplants.core.Route
 import com.fylora.watermyplants.core.fontFamily
+import com.fylora.watermyplants.domain.util.SelectedSection
 import com.fylora.watermyplants.presentation.home_screen.components.no_plants_message.NoPlantsMessage
 import com.fylora.watermyplants.presentation.home_screen.components.notifications.NotificationsButton
 import com.fylora.watermyplants.presentation.home_screen.components.plant.PlantCard
@@ -38,6 +50,12 @@ import com.fylora.watermyplants.presentation.util.UiEvent
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
+    var previousSection by remember { mutableStateOf(viewModel.state.value.selectedSection) }
+
+    LaunchedEffect(key1 = viewModel.state.value.selectedSection) {
+        previousSection = viewModel.state.value.selectedSection
+    }
+
     Scaffold(
         containerColor = Color.Transparent,
         modifier = Modifier
@@ -98,38 +116,55 @@ fun HomeScreen(
             val plantsToShow = viewModel.state.value.plants.filter { plant ->
                 plant.status == viewModel.state.value.selectedSection.status
             }
-            if (plantsToShow.isEmpty()) {
-                Column(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    NoPlantsMessage()
-                }
-                // To take the space if the bottom bar in the scaffold and make it appear centered
-                Column(modifier = Modifier.weight(0.2f)) { }
-            } else {
-                LazyVerticalGrid(
-                    modifier = Modifier.weight(1f),
-                    columns = GridCells.Adaptive(167.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                ) {
-                    items(
-                        items = plantsToShow
-                    ) { plant ->
-                        PlantCard(
-                            plant = plant,
-                            onButtonClick = {
-                                viewModel.onEvent(
-                                    HomeEvents.UpdatePlantStatus(plant)
-                                )
-                            },
-                            onClick = {
-                                UiEvent.Navigate(
-                                    Route.PLANT_DETAILS_SCREEN + "/${plant.id}"
-                                )
-                            }, // TODO: plant screen
-                        )
+            val sections = listOf(SelectedSection.Upcoming, SelectedSection.ForgotToWater, SelectedSection.History)
+            val currentSectionIndex = sections.indexOf(viewModel.state.value.selectedSection)
+            val previousSectionIndex = sections.indexOf(previousSection)
+
+            AnimatedContent(
+                modifier = Modifier.weight(1f),
+                targetState = viewModel.state.value.selectedSection,
+                transitionSpec = {
+                    if (currentSectionIndex > previousSectionIndex) {
+                        (slideInHorizontally { width -> width } + fadeIn()).togetherWith(
+                            slideOutHorizontally { width -> -width } + fadeOut())
+                    } else {
+                        (slideInHorizontally { width -> -width } + fadeIn()).togetherWith(
+                            slideOutHorizontally { width -> width } + fadeOut())
+                    }
+                },
+                label = "Slide Animation"
+            ) { targetSection ->
+                print(targetSection)
+                if (plantsToShow.isEmpty()) {
+                    Column(
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        NoPlantsMessage()
+                    }
+                } else {
+                    LazyVerticalGrid(
+                        modifier = Modifier.weight(1f),
+                        columns = GridCells.Adaptive(167.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    ) {
+                        items(
+                            items = plantsToShow
+                        ) { plant ->
+                            PlantCard(
+                                plant = plant,
+                                onButtonClick = {
+                                    viewModel.onEvent(
+                                        HomeEvents.UpdatePlantStatus(plant)
+                                    )
+                                },
+                                onClick = {
+                                    UiEvent.Navigate(
+                                        Route.PLANT_DETAILS_SCREEN + "/${plant.id}"
+                                    )
+                                }, // TODO: plant screen
+                            )
+                        }
                     }
                 }
             }

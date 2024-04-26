@@ -11,7 +11,7 @@ val OnBackgroundDataGray = Color(0xE6516370)
 val TopNavBarItemColorUnselected = Color(0xFFAFB3B7)
 
 val Surface = Color(0xFFF9F9F9)
-val PlantSection = Color(0x40222222)
+val PlantSection = Color(0x88222222)
 
 val StrokeColor = Color(0x40D9D9D9)
 
